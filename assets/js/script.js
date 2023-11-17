@@ -3,6 +3,7 @@
 // in the html.
 
 const saveBtn = $('.saveBtn')
+var planner = $('.planner')
 
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
@@ -21,17 +22,48 @@ $(function () {
   // current hour in 24-hour time?
 
   var currentHour = dayjs().hour();
-  
-  for(var i = 0, i = 9, i++){
-    
+  console.log(currentHour)
+
+  for(var i = 0; i <= 8; i++){
+    console.log(planner.children().eq(i).attr('id'))
+    if (currentHour == planner.children().eq(i).attr('id')){
+      planner.children().eq(i).addClass('present')
+    }
+    else if (currentHour >= planner.children().eq(i).attr('id')){
+      planner.children().eq(i).addClass('past')
+    }
+    else{
+      planner.children().eq(i).addClass('future')
+    }
+
   }
+      
+  
 
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
-  //
+  var childrenIndex = 0
+for(var i = 9; i <= 17; i++){
+  var savedtext = localStorage.getItem(i)
+  console.log(savedtext)
+  planner.children().eq(childrenIndex).children('textarea').val(localStorage.getItem(i))
+  childrenIndex += 1
+}
+
   // TODO: Add code to display the current date in the header of the page.
+
+  var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', "Saturday"]
+  var month = ['January','February','March','April','May','June','July','August','September','October','November','December',]
+  
+  var todaysdate = (week[dayjs().day()] + ', ' + month[dayjs().month()] + ' ' + dayjs().date())
+
+  $('#currentDay').text(todaysdate)
+
+
+
+
 });
 
 function handleSave(){
